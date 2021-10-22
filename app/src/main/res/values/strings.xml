@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MobileRK</string>
+    <string name="currency_settings">Currency</string>
+    <string name="currency_title">Select currency to convert to</string>
+    <string name="day_settings">Day</string>
+    <string name="day_title">Aggregate by days</string>
 </resources>

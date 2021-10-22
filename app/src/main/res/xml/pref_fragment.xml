@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/currency_settings">
+    <ListPreference
+        app:defaultValue="USD"
+        app:entries="@array/cur_entries"
+        app:entryValues="@array/cur_values"
+        app:key="cur"
+        app:title="@string/currency_title"
+        app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/day_settings">
+        <EditTextPreference
+            app:key="days"
+            app:title="@string/day_title"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+</PreferenceScreen>
