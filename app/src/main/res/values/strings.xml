@@ -5,4 +5,7 @@
     <string name="day_settings">Day</string>
     <string name="day_title">Aggregate by days</string>
     <string name="settings">Settings</string>
+    <string name="btn_go_to_web">Go to Web</string>
+    <string name="search">Search</string>
+    <string name="crypto_name">BTC</string>
 </resources>
