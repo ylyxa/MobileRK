@@ -4,5 +4,4 @@
     android:id="@+id/activity_settings"
     android:name="com.example.mobilerk.SettingsFragment"
     android:layout_width="wrap_content"
-    android:layout_height="fill_parent">
-</androidx.fragment.app.FragmentContainerView>
+    android:layout_height="fill_parent"/>
