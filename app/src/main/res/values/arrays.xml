@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="cur_entries">
+        <item>US Dollars</item>
+        <item>Russian Rubbles</item>
+        <item>Great Britain Pounds</item>
+    </string-array>
+
+    <string-array name="cur_values">
+        <item>USD</item>
+        <item>RUB</item>
+        <item>GBP</item>
+    </string-array>
+</resources>
