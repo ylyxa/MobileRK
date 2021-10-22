@@ -7,8 +7,10 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mobilerk.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
@@ -17,8 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
+        //setContentView(R.layout.activity_main)
         val dataset: List<Pair<String, String>> = listOf(1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8).map{it -> Pair("item number $it", "item number $it but bottom")}
 
         viewManager = LinearLayoutManager(this)
@@ -49,5 +50,7 @@ class MainActivity : AppCompatActivity() {
             // Invoke the superclass to handle it.
             super.onOptionsItemSelected(item)
         }
+
+
     }
 }
