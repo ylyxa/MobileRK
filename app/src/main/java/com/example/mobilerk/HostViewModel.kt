@@ -11,10 +11,10 @@ import java.lang.Exception
 
 class HostViewModel : ViewModel() {
     private val _response = MutableLiveData<String>()
-    private val _data = MutableLiveData<List<WebData>>()
+    private val _data = MutableLiveData<WebData>()
     val response: LiveData<String>
         get() = _response
-    val data: LiveData<List<WebData>>
+    val data: LiveData<WebData>
         get() = _data
 
     init {
@@ -24,8 +24,8 @@ class HostViewModel : ViewModel() {
     private fun loadDataFromInternet() {
         viewModelScope.launch {
             try {
-                val listResult = WebApi.retrofitService.getData("albums")
-                _response.value = "Success: ${listResult.size} data retrieved"
+                val listResult = WebApi.retrofitService.getData("BTC", "USD", 10)
+                _response.value = "Success"
                 _data.value = listResult
             } catch (e: Exception) {
                 _response.value = "Failure: ${e.message}"

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -14,15 +15,17 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
+    private val viewModel: HostViewModel by lazy {
+        ViewModelProvider(this).get(HostViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val dataset: List<Pair<String, String>> = listOf(1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8).map{it -> Pair("item number $it", "item number $it but bottom")}
-
+        val result = WebApi.retrofitService.getData("BTC", "USD", 10)
         viewManager = LinearLayoutManager(this)
-        viewAdapter = CustomAdapter(dataset)
+        viewAdapter = CustomAdapter(result)
 
         recyclerView = findViewById<RecyclerView>(R.id.coins_recycler).apply {
             setHasFixedSize(true)
@@ -32,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        getMenuInflater().inflate(R.menu.activity_menu, menu)
+        menuInflater.inflate(R.menu.activity_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
