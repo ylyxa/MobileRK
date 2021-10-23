@@ -12,8 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mobilerk.databinding.ActivityMainBinding
 import java.lang.NumberFormatException
 import java.util.prefs.PreferenceChangeListener
+import androidx.lifecycle.ViewModelProvider
 
-class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener, Preference.OnPreferenceChangeListener {
+class MainActivity : AppCompatActivity() , SharedPreferences.OnSharedPreferenceChangeListener, Preference.OnPreferenceChangeListener {
     private lateinit var binding: ActivityMainBinding
 
     private lateinit var recyclerView: RecyclerView
@@ -49,7 +50,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        getMenuInflater().inflate(R.menu.activity_menu, menu)
+        menuInflater.inflate(R.menu.activity_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -92,5 +93,4 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         }
         return true
     }
-
 }
