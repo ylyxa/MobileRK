@@ -1,10 +1,14 @@
 package com.example.mobilerk
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import java.time.ZoneId
+import java.util.*
 
 
 class CustomAdapter(private val dataSet: WebData?) :
@@ -30,14 +34,20 @@ class CustomAdapter(private val dataSet: WebData?) :
     }
 
     // Replace the contents of a view (invoked by the layout manager)
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
         if (dataSet != null) {
-            viewHolder.topTextView.text = dataSet.days.days[position].time.toString()
-            viewHolder.leftTextView.text = "High: " + dataSet.days.days[position].high.toString()
-            viewHolder.rightTextView.text = "Low: " + dataSet.days.days[position].low.toString()
+            val days = dataSet.days.days.reversed()
+            viewHolder.topTextView.text = java.time.format.DateTimeFormatter.ISO_LOCAL_DATE.withLocale(
+                Locale.UK
+            ).withZone(ZoneId.of("UTC+3")).format(java.time.Instant.ofEpochSecond(
+                days[position].time.toLong()
+            ))
+            viewHolder.leftTextView.text = "High: " + days[position].high.toString()
+            viewHolder.rightTextView.text = "Low: " + days[position].low.toString()
         }
     }
 
