@@ -36,8 +36,8 @@ class CustomAdapter(private val dataSet: WebData?) :
         // contents of the view with that element
         if (dataSet != null) {
             viewHolder.topTextView.text = dataSet.days.days[position].time.toString()
-            viewHolder.leftTextView.text = dataSet.days.days[position].high.toString()
-            viewHolder.rightTextView.text = dataSet.days.days[position].high.toString()
+            viewHolder.leftTextView.text = "High: " + dataSet.days.days[position].high.toString()
+            viewHolder.rightTextView.text = "Low: " + dataSet.days.days[position].low.toString()
         }
     }
 

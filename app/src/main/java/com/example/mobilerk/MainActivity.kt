@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import androidx.databinding.DataBindingUtil
 import androidx.preference.Preference
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +17,10 @@ import java.util.prefs.PreferenceChangeListener
 import androidx.lifecycle.ViewModelProvider
 
 class MainActivity : AppCompatActivity() , SharedPreferences.OnSharedPreferenceChangeListener, Preference.OnPreferenceChangeListener {
-    private lateinit var binding: ActivityMainBinding
+
+    fun onClickSearch(v: View) {
+        recreate()
+    }
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
@@ -27,26 +32,27 @@ class MainActivity : AppCompatActivity() , SharedPreferences.OnSharedPreferenceC
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding : ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         val sp: SharedPreferences = getSharedPreferences("activity_settings", MODE_PRIVATE)
         sp.registerOnSharedPreferenceChangeListener(this)
         limit = sp.getInt("days", 10)
         tsym  = sp.getString("cur", "USD").toString()
+        binding.viewModel = viewModel
 
-    }
-
-    fun fillRecycleView() {
-
-        val dataset: List<Pair<String, String>> = listOf(1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8).map{it -> Pair("item number $it", "item number $it but bottom")}
+        val dataSet = viewModel.data.value
 
         viewManager = LinearLayoutManager(this)
-        viewAdapter = CustomAdapter(dataset)
+        viewAdapter = CustomAdapter(dataSet)
 
         recyclerView = findViewById<RecyclerView>(R.id.coins_recycler).apply {
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter
         }
+    }
+
+    private val viewModel: HostViewModel by lazy {
+        ViewModelProvider(this).get(HostViewModel::class.java)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -76,7 +82,7 @@ class MainActivity : AppCompatActivity() , SharedPreferences.OnSharedPreferenceC
         }
 
         if (fsym != "") {
-            fillRecycleView()
+            recreate()
         }
     }
 
