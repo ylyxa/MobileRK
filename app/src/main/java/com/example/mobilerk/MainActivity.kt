@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.preference.Preference
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,26 +18,35 @@ import java.util.prefs.PreferenceChangeListener
 import androidx.lifecycle.ViewModelProvider
 
 class MainActivity : AppCompatActivity() , SharedPreferences.OnSharedPreferenceChangeListener, Preference.OnPreferenceChangeListener {
-
-    fun onClickSearch(v: View) {
-        recreate()
-    }
-
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
     private var limit: Int = 10
-    private var fsym: String = ""
+    private var fsym: String = "BTC"
     private var tsym: String = "USD"
+    private val sp: SharedPreferences = getSharedPreferences("activity_settings", MODE_PRIVATE)
+    private val binding : ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+    private val viewModel: HostViewModel by viewModels {
+        HostViewModelFactory(fsym, tsym, limit)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding : ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        val sp: SharedPreferences = getSharedPreferences("activity_settings", MODE_PRIVATE)
         sp.registerOnSharedPreferenceChangeListener(this)
+
+        fillRecvView()
+    }
+
+    fun onClickSearch(v: View) {
+        fillRecvView()
+    }
+
+    fun fillRecvView() {
         limit = sp.getInt("days", 10)
         tsym  = sp.getString("cur", "USD").toString()
+
         binding.viewModel = viewModel
 
         val dataSet = viewModel.data.value
@@ -49,10 +59,6 @@ class MainActivity : AppCompatActivity() , SharedPreferences.OnSharedPreferenceC
             layoutManager = viewManager
             adapter = viewAdapter
         }
-    }
-
-    private val viewModel: HostViewModel by lazy {
-        ViewModelProvider(this).get(HostViewModel::class.java)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -82,7 +88,7 @@ class MainActivity : AppCompatActivity() , SharedPreferences.OnSharedPreferenceC
         }
 
         if (fsym != "") {
-            recreate()
+            fillRecvView()
         }
     }
 
