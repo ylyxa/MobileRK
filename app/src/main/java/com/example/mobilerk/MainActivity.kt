@@ -1,5 +1,6 @@
 package com.example.mobilerk
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.preference.Preference
@@ -21,32 +23,31 @@ class MainActivity : AppCompatActivity() , SharedPreferences.OnSharedPreferenceC
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var sp: SharedPreferences
 
     private var limit: Int = 10
     private var fsym: String = "BTC"
     private var tsym: String = "USD"
-    private val sp: SharedPreferences = getSharedPreferences("activity_settings", MODE_PRIVATE)
-    private val binding : ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-    private val viewModel: HostViewModel by viewModels {
-        HostViewModelFactory(fsym, tsym, limit)
-    }
+    private lateinit var viewModel: HostViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        sp = getSharedPreferences("activity_settings", MODE_PRIVATE)
         sp.registerOnSharedPreferenceChangeListener(this)
 
-        fillRecvView()
+       // fillRecvView()
     }
 
     fun onClickSearch(v: View) {
+        fsym = binding.root.findViewById<TextView>(R.id.edit_crypto).text.toString()
         fillRecvView()
     }
 
     fun fillRecvView() {
-        limit = sp.getInt("days", 10)
-        tsym  = sp.getString("cur", "USD").toString()
-
+        viewModel = ViewModelProvider(this, HostViewModelFactory(fsym, tsym, limit)).get(HostViewModel::class.java)
         binding.viewModel = viewModel
 
         val dataSet = viewModel.data.value
