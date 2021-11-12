@@ -35,7 +35,8 @@
                 android:text="@string/btn_go_to_web"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                android:onClick="goToWeb"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/coins_recycler"

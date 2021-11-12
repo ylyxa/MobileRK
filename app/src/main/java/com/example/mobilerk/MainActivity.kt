@@ -3,6 +3,7 @@ package com.example.mobilerk
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -31,6 +32,15 @@ class MainActivity : AppCompatActivity() , SharedPreferences.OnSharedPreferenceC
     private var tsym: String = "USD"
 
     private lateinit var viewModel: HostViewModel
+
+    @SuppressLint("QueryPermissionsNeeded")
+    fun goToWeb(v: View) {
+        val parsedURI: Uri = Uri.parse("https://www.cryptocompare.com/coins/$fsym")
+        val newIntent: Intent = Intent(Intent.ACTION_VIEW, parsedURI)
+        if (newIntent.resolveActivity(packageManager) != null) {
+            startActivity(newIntent)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
